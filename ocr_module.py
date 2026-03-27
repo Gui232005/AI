@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from paddleocr import PaddleOCR
 
-DEBUG = True
+DEBUG = False
 
 # Padrões de matrícula em portugal em REGEX
 PLATE_PATTERN = re.compile(
