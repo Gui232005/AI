@@ -12,10 +12,26 @@ from search_algorithms.greedyBestFirstSearch import greedyBest_FirstSearch
 from search_algorithms.A import a_star_search
 from rede import linha_reta, origem_faro, cidades
 from ocr_module import LicensePlateOCR
+from local_llm.LocalLLM import LocalLLM
 
 
 def limpar_ecra():
     os.system('cls' if os.name == 'nt' else 'clear')
+
+
+def mostrar_atracoes_llm(llm, cidades_caminho):
+    """Mostra as 3 principais atrações das cidades usando LLM local."""
+    print("\n" + "="*60)
+    print("ATRAÇÕES TURÍSTICAS (via LLM Local)")
+    print("="*60)
+    
+    for cidade in cidades_caminho:
+        print(f"\n{cidade}:")
+        resultado = llm.get_attractions(cidade)
+        print(resultado['attractions'])
+        print(f"   (Tempo de resposta: {resultado['time']:.2f}s)")
+    
+    print("="*60)
 
 
 def menu_principal(matricula):
@@ -88,6 +104,8 @@ def escolher_cidade(prompt):
             print("Cidade inválida, tenta de novo.")
 
 def menu_principal(matricula, origem, destino):
+    llm = LocalLLM()  # Inicializa o LLM local
+    
     while True:
         limpar_ecra()
         print(f"--- BEM-VINDO: {matricula} ---")
@@ -106,24 +124,53 @@ def menu_principal(matricula, origem, destino):
         elif opcao in ("1", "2", "3", "4"):
             if opcao == "1":
                 custo, caminho = uniform_cost_search(cidades, origem, destino)
-                print(f"\n[Uniform Cost Search] Custo: {custo} km — Caminho: {' → '.join(caminho)}")
+                print(f"\n[Uniform Cost Search]")
+                print(f"Custo: {custo} km")
+                print(f"Caminho: {' → '.join(caminho)}")
+                
+                # LLM: Atrações turísticas
+                mostrar_atracoes_llm(llm, caminho)
+                
             elif opcao == "2":
                 limite = int(input("Defina o limite de profundidade: "))
                 resultado = depth_limited_search(origem, destino, cidades, limite)
+                
                 if resultado in ("cutoff", "failure"):
                     print(f"\n[Depth Limited Search] Resultado: {resultado}")
                 else:
-                    print(f"\n[Depth Limited Search] Caminho encontrado: {' → '.join(resultado)}")
+                    print(f"\n[Depth Limited Search]")
+                    print(f"Caminho encontrado: {' → '.join(resultado)}")
+                    
+                    # Calcular distância
+                    distancia_total = 0
+                    for i in range(len(resultado) - 1):
+                        distancia_total += cidades[resultado[i]][resultado[i + 1]]
+                    print(f"Distância total: {distancia_total} km")
+                    
+                    # LLM: Atrações turísticas
+                    mostrar_atracoes_llm(llm, resultado)
+                
             elif opcao == "3":
                 def heuristic(n, goal):
                     return linha_reta(n, goal)
                 custo, caminho = greedyBest_FirstSearch(cidades, origem, destino, heuristic)
-                print(f"\n[Greedy Best-First Search] Custo: {custo} km — Caminho: {' → '.join(caminho)}")
+                print(f"\n[Greedy Best-First Search]")
+                print(f"Custo: {custo} km")
+                print(f"Caminho: {' → '.join(caminho)}")
+                
+                # LLM: Atrações turísticas
+                mostrar_atracoes_llm(llm, caminho)
+                
             elif opcao == "4":
                 def heuristic(n, goal):
                     return linha_reta(n, goal)
                 custo, caminho = a_star_search(cidades, origem, destino, heuristic)
-                print(f"\n[A* Search] Custo: {custo} km — Caminho: {' → '.join(caminho)}")
+                print(f"\n[A* Search]")
+                print(f"Custo: {custo} km")
+                print(f"Caminho: {' → '.join(caminho)}")
+                
+                # LLM: Atrações turísticas
+                mostrar_atracoes_llm(llm, caminho)
 
             input("\nPressione Enter para continuar...")
         else:
