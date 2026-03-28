@@ -6,9 +6,6 @@ import heapq
 enquanto também leva em consideração a proximidade do objetivo.
 '''
 
-import heapq
-
-
 def a_star_search(graph, start, goal, heuristic):
     priority_queue = []
     initial_h = heuristic(start, goal)
