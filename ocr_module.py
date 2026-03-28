@@ -14,7 +14,6 @@ PLATE_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
-
 def _debug_show(title: str, image: np.ndarray) -> None:
     """Mostra uma janela com a imagem se DEBUG=True. Fecha com qualquer tecla."""
     if not DEBUG:

@@ -2,21 +2,22 @@ import os
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
-<<<<<<< HEAD
-
-
 from rede import linha_reta, origem_faro, cidades
 # Vamos precisar de importar a função de OCR que vais criar
 # from ocr_module import extrair_matricula 
-=======
+
+from search_algorithms.uniformCostSearch import uniform_cost_search
+from search_algorithms.depthLimitedSearch import depth_limited_search
+from search_algorithms.greedyBestFirstSearch import greedyBest_FirstSearch
+from search_algorithms.A import a_star_search
 from rede import linha_reta, origem_faro, cidades
 from ocr_module import LicensePlateOCR
->>>>>>> 1de076472bf381b97e931ffc6b1876ab00f8d400
+
 
 def limpar_ecra():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-<<<<<<< HEAD
+
 def menu_principal(matricula):
     limpar_ecra()
     print(f"--- BEM-VINDO: {matricula} ---")
@@ -25,10 +26,34 @@ def menu_principal(matricula):
     print("3. Procurar Caminho (Sôfrega)")
     print("4. Procurar Caminho (A*)")
     print("0. Sair")
-    
+
+    opcao = input("\nEscolha uma opção: ").strip()
     #os.system('cls' if os.name == 'nt' else 'clear')
     
-    # Aqui o teu colega depois insere a lógica das escolhas
+    if opcao == "0":
+        print("A sair...")
+    elif opcao in ("1", "2", "3", "4"):
+        if opcao == "1":
+            custo, caminho = uniform_cost_search(cidades, "Viseu", "Faro")
+            print(f"\n[Uniform Cost Search] Custo: {custo} km — Caminho: {' → '.join(caminho)}")
+        elif opcao == "2":
+            limite = int(input("Defina o limite de profundidade: "))
+            resultado = depth_limited_search("Viseu", "Faro", cidades, limite)
+            if resultado in ("cutoff", "failure"):
+                print(f"\n[Depth Limited Search] Resultado: {resultado}")
+            else:
+                print(f"\n[Depth Limited Search] Caminho encontrado: {' → '.join(resultado)}")
+        elif opcao == "3":
+            def heuristic(n, goal):
+                return linha_reta(n, goal)
+            custo, caminho = greedyBest_FirstSearch(cidades, "Viseu", "Faro", heuristic)
+            print(f"\n[Greedy Best-First Search] Custo: {custo} km — Caminho: {' → '.join(caminho)}")
+        elif opcao == "4":
+            def heuristic(n, goal):
+                return linha_reta(n, goal)
+            custo, caminho = a_star_search(cidades, "Viseu", "Faro", heuristic)
+            print(f"\n[A* Search] Custo: {custo} km — Caminho: {' → '.join(caminho)}")
+
     input("\nPressione Enter para continuar...")
 
 def login():
@@ -47,7 +72,7 @@ def login():
         menu_principal(matricula_detectada)
     else:
         print("Erro: Não foi possível ler a matrícula.")
-=======
+
 def escolher_cidade(prompt):
     cidades_lista = sorted(cidades.keys())
     print(f"\n{prompt}")
@@ -79,8 +104,27 @@ def menu_principal(matricula, origem, destino):
             print("A sair...")
             break
         elif opcao in ("1", "2", "3", "4"):
-            # Os algoritmos serão implementados pelos colegas
-            print(f"\n[TODO] Algoritmo {opcao} — {origem} → {destino}")
+            if opcao == "1":
+                custo, caminho = uniform_cost_search(cidades, origem, destino)
+                print(f"\n[Uniform Cost Search] Custo: {custo} km — Caminho: {' → '.join(caminho)}")
+            elif opcao == "2":
+                limite = int(input("Defina o limite de profundidade: "))
+                resultado = depth_limited_search(origem, destino, cidades, limite)
+                if resultado in ("cutoff", "failure"):
+                    print(f"\n[Depth Limited Search] Resultado: {resultado}")
+                else:
+                    print(f"\n[Depth Limited Search] Caminho encontrado: {' → '.join(resultado)}")
+            elif opcao == "3":
+                def heuristic(n, goal):
+                    return linha_reta(n, goal)
+                custo, caminho = greedyBest_FirstSearch(cidades, origem, destino, heuristic)
+                print(f"\n[Greedy Best-First Search] Custo: {custo} km — Caminho: {' → '.join(caminho)}")
+            elif opcao == "4":
+                def heuristic(n, goal):
+                    return linha_reta(n, goal)
+                custo, caminho = a_star_search(cidades, origem, destino, heuristic)
+                print(f"\n[A* Search] Custo: {custo} km — Caminho: {' → '.join(caminho)}")
+
             input("\nPressione Enter para continuar...")
         else:
             input("Opção inválida. Pressione Enter para tentar de novo...")
@@ -115,13 +159,9 @@ def login():
 
     input(f"\nPercurso definido: {origem} → {destino}\nPressione Enter para entrar no menu...")
     menu_principal(matricula_detectada, origem, destino)
->>>>>>> 1de076472bf381b97e931ffc6b1876ab00f8d400
 
 if __name__ == "__main__":
     login()
-
-
-
 
 # Testar o método de Haversine
 distancia_teste = linha_reta('Viseu', 'Faro')
@@ -130,7 +170,3 @@ print(f"Linha reta Viseu-Faro: {distancia_teste} km")
 # Testar a tabela fixa para Faro (Tabela 2)
 distancia_faro = origem_faro['Viseu']
 print(f"Tabela fixa Viseu-Faro: {distancia_faro} km")
-<<<<<<< HEAD
-
-=======
->>>>>>> 1de076472bf381b97e931ffc6b1876ab00f8d400
