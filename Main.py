@@ -118,18 +118,26 @@ def menu_principal(matricula, origem, destino):
             input("Opção inválida. Pressione Enter para tentar de novo...")
 
 def login():
+    from ocr_module import GPU_DISPONIVEL
     limpar_ecra()
     print("--- LOGIN DO SISTEMA (OCR) ---\n")
 
-    caminho_imagem = input("Caminho para a imagem da matrícula: ").strip()
+    if GPU_DISPONIVEL:
+        escolha = input("GPU detectada. Usar GPU? (s/n): ").strip().lower()
+        use_gpu = escolha != "n"
+    else:
+        print("GPU não detectada. A usar CPU.")
+        use_gpu = False
+
+    caminho_imagem = input("\nCaminho para a imagem da matrícula: ").strip()
 
     if not os.path.isfile(caminho_imagem):
         print(f"Erro: ficheiro não encontrado — {caminho_imagem}")
         return
 
     print()
-    with Spinner("A processar imagem com OCR"):
-        ocr = LicensePlateOCR()
+    with Spinner(f"A processar imagem com OCR ({'GPU' if use_gpu else 'CPU'})"):
+        ocr = LicensePlateOCR(use_gpu=use_gpu)
         plates = ocr.extract_plates(caminho_imagem)
 
     if not plates:
