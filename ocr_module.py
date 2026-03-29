@@ -1,6 +1,20 @@
+import os
 import re
 import cv2
 import numpy as np
+
+def _check_gpu():
+    try:
+        import paddle
+        return paddle.is_compiled_with_cuda()
+    except Exception:
+        return False
+
+GPU_DISPONIVEL = _check_gpu()
+
+if not GPU_DISPONIVEL:
+    os.environ["FLAGS_use_mkldnn"] = "0"
+
 from paddleocr import PaddleOCR
 
 DEBUG = False
