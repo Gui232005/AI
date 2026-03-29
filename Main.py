@@ -84,7 +84,7 @@ def escolher_cidade(prompt):
             print("Cidade inválida, tenta de novo.")
 
 def menu_principal(matricula, origem, destino):
-    llm = LocalLLM()  # Inicializa o LLM local
+    llm = LocalLLM()
     
     while True:
         limpar_ecra()
