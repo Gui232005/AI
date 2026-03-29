@@ -1,27 +1,24 @@
-from paddle import expand
-
 '''
-    O Depth_limited Search é um algoritmo que pesquisa em profundidade, mas com um limite de profundidade definido.  
+    O Depth_limited Search é um algoritmo que pesquisa em profundidade, mas com um limite de profundidade definido.
 '''
-
-# Esta função expande um nó, retornando seus vizinhos. No nosso caso, os vizinhos são as cidades conectadas ao nó atual no grafo.
-def expand(node, graph):
-    return list(graph[node].keys())
-
-# Esta verifica se o nó atual é o objetivo. Se for, retorna True, caso contrário, retorna False.
-def goal_test(node, goal):
-    return node == goal
 
 # Aqui é onde o algoritmo está implementado, quando o limite for atingido ele para nao interessa se chegou ou nao ao objetivo
-def depth_limited_search(node, goal, graph, limit):
-    if goal_test(node, goal):
+def depth_limited_search(node, goal, graph, limit, visited=None):
+    #O parâmetro visited é para que o algoritmo não passe no mesmo local mais do que uma vez
+    if visited is None:
+        visited = set()
+    if node == goal:
         return [node]
     elif limit == 0:
         return "cutoff"
+    elif node in visited:
+        return "failure"
     else:
+        visited.add(node)
         cutoff_occurred = False
-        for child in expand(node, graph):
-            result = depth_limited_search(child, goal, graph, limit - 1) # Conforme a pesquisa é feita em cada nível, o limite é decrementado
+        for child in graph[node].keys():
+            result = depth_limited_search(child, goal, graph, limit - 1, visited)
+            print("Interação: ", node, " -> ", child, " | km: ", graph[node][child], " | Resultado: ", result)
             if result == "cutoff":
                 cutoff_occurred = True
             elif result != "failure":

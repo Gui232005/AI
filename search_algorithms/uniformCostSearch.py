@@ -24,6 +24,7 @@ def uniform_cost_search(graph, start, goal):
         for neighbor, cost in graph[current_node].items():  # Usa .items() para fazer um loop sobre os vizinhos e seus custos
             total_cost = current_cost + cost
             new_path = path + [neighbor]
+            print("Interação: ", current_node, " -> ", neighbor, " | km: ", cost, " | Custo total: ", total_cost)
 
             if neighbor not in visited or total_cost < visited.get(neighbor, float('inf')):
                 heapq.heappush(priority_queue, (total_cost, neighbor, new_path))

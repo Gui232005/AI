@@ -28,6 +28,7 @@ def a_star_search(graph, start, goal, heuristic):
             neighbor_h = heuristic(neighbor, goal)
             total_f_cost = total_g_cost + neighbor_h
             new_path = path + [neighbor]
+            print("Interação: ", current_node, " -> ", neighbor, " | km: ", cost, " | g(n): ", total_g_cost, " | h(n): ", neighbor_h, " | f(n): ", total_f_cost)
 
             if neighbor not in visited or total_g_cost < visited.get(neighbor, float('inf')):
                 heapq.heappush(priority_queue, (total_f_cost, total_g_cost, neighbor, new_path))

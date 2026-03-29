@@ -22,14 +22,14 @@ def greedyBest_FirstSearch(graph, start, goal, heuristic):
             while node is not None:
                 path.append(node)
                 node = parent[node]
-            path = path[::-1]  # Inverte o caminho, para que vá do início ao objetivo
+            path = path[::-1]  # Inverte o caminho
 
             # Calcular o custo total do caminho
             total_cost = 0
             for i in range(len(path) - 1):
                 total_cost += graph[path[i]][path[i + 1]]
 
-            return total_cost, path  # Devolve (custo, caminho)
+            return total_cost, path
 
         if current_node in visited:
             continue
@@ -37,8 +37,10 @@ def greedyBest_FirstSearch(graph, start, goal, heuristic):
         visited.add(current_node)
 
         for neighbor in graph[current_node]:
-            if neighbor not in visited:
+            if neighbor not in visited and neighbor not in parent:
                 parent[neighbor] = current_node
                 heapq.heappush(priority_queue, (heuristic(neighbor, goal), neighbor))
+                print("Interação: ", current_node, " -> ", neighbor, " | km: ", graph[current_node][neighbor], " | Heurística: ", heuristic(neighbor, goal))
+            # Se o neighbor já estiver no parent, não atualizamos, para evitar sobreposições
 
-    return None, None  # Se não houver caminho
+    return None, None
