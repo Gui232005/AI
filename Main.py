@@ -7,8 +7,6 @@ from search_algorithms.uniformCostSearch import uniform_cost_search
 from search_algorithms.depthLimitedSearch import depth_limited_search
 from search_algorithms.greedyBestFirstSearch import greedyBest_FirstSearch
 from search_algorithms.A import a_star_search
-from rede import linha_reta, origem_faro, cidades
-from ocr_module import LicensePlateOCR
 from local_llm.LocalLLM import LocalLLM
 from spinner import Spinner
 
@@ -29,45 +27,6 @@ def mostrar_atracoes_llm(llm, cidades_caminho):
         print(f"   (Tempo de resposta: {resultado['time']:.2f}s)")
     
     print("="*60)
-
-
-def menu_principal(matricula):
-    limpar_ecra()
-    print(f"--- BEM-VINDO: {matricula} ---")
-    print("1. Procurar Caminho (Custo Uniforme)")
-    print("2. Procurar Caminho (Profundidade Limitada)")
-    print("3. Procurar Caminho (Sôfrega)")
-    print("4. Procurar Caminho (A*)")
-    print("0. Sair")
-
-    opcao = input("\nEscolha uma opção: ").strip()
-    #os.system('cls' if os.name == 'nt' else 'clear')
-    
-    if opcao == "0":
-        print("A sair...")
-    elif opcao in ("1", "2", "3", "4"):
-        if opcao == "1":
-            custo, caminho = uniform_cost_search(cidades, "Viseu", "Faro")
-            print(f"\n[Uniform Cost Search] Custo: {custo} km — Caminho: {' → '.join(caminho)}")
-        elif opcao == "2":
-            limite = int(input("Defina o limite de profundidade: "))
-            resultado = depth_limited_search("Viseu", "Faro", cidades, limite)
-            if resultado in ("cutoff", "failure"):
-                print(f"\n[Depth Limited Search] Resultado: {resultado}")
-            else:
-                print(f"\n[Depth Limited Search] Caminho encontrado: {' → '.join(resultado)}")
-        elif opcao == "3":
-            def heuristic(n, goal):
-                return linha_reta(n, goal)
-            custo, caminho = greedyBest_FirstSearch(cidades, "Viseu", "Faro", heuristic)
-            print(f"\n[Greedy Best-First Search] Custo: {custo} km — Caminho: {' → '.join(caminho)}")
-        elif opcao == "4":
-            def heuristic(n, goal):
-                return linha_reta(n, goal)
-            custo, caminho = a_star_search(cidades, "Viseu", "Faro", heuristic)
-            print(f"\n[A* Search] Custo: {custo} km — Caminho: {' → '.join(caminho)}")
-
-    input("\nPressione Enter para continuar...")
 
 def escolher_cidade(prompt):
     cidades_lista = sorted(cidades.keys())
@@ -168,9 +127,10 @@ def login():
         print(f"Erro: ficheiro não encontrado — {caminho_imagem}")
         return
 
-    print("\nA processar imagem com OCR...")
-    ocr = LicensePlateOCR()
-    plates = ocr.extract_plates(caminho_imagem)
+    print()
+    with Spinner("A processar imagem com OCR"):
+        ocr = LicensePlateOCR()
+        plates = ocr.extract_plates(caminho_imagem)
 
     if not plates:
         print("Erro: Não foi possível detectar nenhuma matrícula na imagem.")

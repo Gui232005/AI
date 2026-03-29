@@ -1,5 +1,3 @@
-from paddle import expand
-
 '''
     O Depth_limited Search é um algoritmo que pesquisa em profundidade, mas com um limite de profundidade definido.  
 '''
