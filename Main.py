@@ -69,23 +69,6 @@ def menu_principal(matricula):
 
     input("\nPressione Enter para continuar...")
 
-def login():
-    limpar_ecra()
-    print("--- LOGIN DO SISTEMA (OCR) ---")
-    
-    # Exemplo de como funcionará:
-    # caminho_imagem = "Seat-Ibiza-FR-8-scaled_925x520_acf_cropped..."
-    # matricula_detectada = extrair_matricula(caminho_imagem)
-    
-    matricula_detectada = "00-AA-00" # Placeholder enquanto não temos o OCR
-    
-    if matricula_detectada:
-        print(f"Matrícula detectada com sucesso: {matricula_detectada}")
-        input("Acesso garantido. Pressione Enter para entrar no menu...")
-        menu_principal(matricula_detectada)
-    else:
-        print("Erro: Não foi possível ler a matrícula.")
-
 def escolher_cidade(prompt):
     cidades_lista = sorted(cidades.keys())
     print(f"\n{prompt}")
