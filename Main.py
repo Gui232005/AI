@@ -1,16 +1,108 @@
 import os
+<<<<<<< HEAD
+=======
+
+os.system('cls' if os.name == 'nt' else 'clear')
+
+>>>>>>> da8338a18eb569338bb6340c1ed7a4e0a7337c54
 from rede import linha_reta, origem_faro, cidades
 
 # Vamos precisar de importar a função de OCR que vais criar
 # from ocr_module import extrair_matricula 
+<<<<<<< HEAD
 from ocr_module import LicensePlateOCR
 
 # Lista para guardar o histórico das viagens (associação de matrícula ao caminho)
 historico_viagens = []
+=======
+
+from search_algorithms.uniformCostSearch import uniform_cost_search
+from search_algorithms.depthLimitedSearch import depth_limited_search
+from search_algorithms.greedyBestFirstSearch import greedyBest_FirstSearch
+from search_algorithms.A import a_star_search
+from rede import linha_reta, origem_faro, cidades
+from ocr_module import LicensePlateOCR
+from local_llm.LocalLLM import LocalLLM
+
+>>>>>>> da8338a18eb569338bb6340c1ed7a4e0a7337c54
 
 def limpar_ecra():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+<<<<<<< HEAD
+=======
+
+def mostrar_atracoes_llm(llm, cidades_caminho):
+    """Mostra as 3 principais atrações das cidades usando LLM local."""
+    print("\n" + "="*60)
+    print("ATRAÇÕES TURÍSTICAS (via LLM Local)")
+    print("="*60)
+    
+    for cidade in cidades_caminho:
+        print(f"\n{cidade}:")
+        resultado = llm.get_attractions(cidade)
+        print(resultado['attractions'])
+        print(f"   (Tempo de resposta: {resultado['time']:.2f}s)")
+    
+    print("="*60)
+
+
+def menu_principal(matricula):
+    limpar_ecra()
+    print(f"--- BEM-VINDO: {matricula} ---")
+    print("1. Procurar Caminho (Custo Uniforme)")
+    print("2. Procurar Caminho (Profundidade Limitada)")
+    print("3. Procurar Caminho (Sôfrega)")
+    print("4. Procurar Caminho (A*)")
+    print("0. Sair")
+
+    opcao = input("\nEscolha uma opção: ").strip()
+    #os.system('cls' if os.name == 'nt' else 'clear')
+    
+    if opcao == "0":
+        print("A sair...")
+    elif opcao in ("1", "2", "3", "4"):
+        if opcao == "1":
+            custo, caminho = uniform_cost_search(cidades, "Viseu", "Faro")
+            print(f"\n[Uniform Cost Search] Custo: {custo} km — Caminho: {' → '.join(caminho)}")
+        elif opcao == "2":
+            limite = int(input("Defina o limite de profundidade: "))
+            resultado = depth_limited_search("Viseu", "Faro", cidades, limite)
+            if resultado in ("cutoff", "failure"):
+                print(f"\n[Depth Limited Search] Resultado: {resultado}")
+            else:
+                print(f"\n[Depth Limited Search] Caminho encontrado: {' → '.join(resultado)}")
+        elif opcao == "3":
+            def heuristic(n, goal):
+                return linha_reta(n, goal)
+            custo, caminho = greedyBest_FirstSearch(cidades, "Viseu", "Faro", heuristic)
+            print(f"\n[Greedy Best-First Search] Custo: {custo} km — Caminho: {' → '.join(caminho)}")
+        elif opcao == "4":
+            def heuristic(n, goal):
+                return linha_reta(n, goal)
+            custo, caminho = a_star_search(cidades, "Viseu", "Faro", heuristic)
+            print(f"\n[A* Search] Custo: {custo} km — Caminho: {' → '.join(caminho)}")
+
+    input("\nPressione Enter para continuar...")
+
+def login():
+    limpar_ecra()
+    print("--- LOGIN DO SISTEMA (OCR) ---")
+    
+    # Exemplo de como funcionará:
+    # caminho_imagem = "Seat-Ibiza-FR-8-scaled_925x520_acf_cropped..."
+    # matricula_detectada = extrair_matricula(caminho_imagem)
+    
+    matricula_detectada = "00-AA-00" # Placeholder enquanto não temos o OCR
+    
+    if matricula_detectada:
+        print(f"Matrícula detectada com sucesso: {matricula_detectada}")
+        input("Acesso garantido. Pressione Enter para entrar no menu...")
+        menu_principal(matricula_detectada)
+    else:
+        print("Erro: Não foi possível ler a matrícula.")
+
+>>>>>>> da8338a18eb569338bb6340c1ed7a4e0a7337c54
 def escolher_cidade(prompt):
     cidades_lista = sorted(cidades.keys())
     print(f"\n{prompt}")
@@ -26,6 +118,8 @@ def escolher_cidade(prompt):
             print("Cidade inválida, tenta de novo.")
 
 def menu_principal(matricula, origem, destino):
+    llm = LocalLLM()  # Inicializa o LLM local
+    
     while True:
         limpar_ecra()
         print(f"--- BEM-VINDO: {matricula} ---")
@@ -44,9 +138,62 @@ def menu_principal(matricula, origem, destino):
             print("A sair...")
             break
         elif opcao in ("1", "2", "3", "4"):
+<<<<<<< HEAD
             # Os algoritmos serão implementados pelos colegas
             # Aqui o teu colega depois insere a lógica das escolhas
             print(f"\n[TODO] Algoritmo {opcao} — {origem} → {destino}")
+=======
+            if opcao == "1":
+                custo, caminho = uniform_cost_search(cidades, origem, destino)
+                print(f"\n[Uniform Cost Search]")
+                print(f"Custo: {custo} km")
+                print(f"Caminho: {' → '.join(caminho)}")
+                
+                # LLM: Atrações turísticas
+                mostrar_atracoes_llm(llm, caminho)
+                
+            elif opcao == "2":
+                limite = int(input("Defina o limite de profundidade: "))
+                resultado = depth_limited_search(origem, destino, cidades, limite)
+                
+                if resultado in ("cutoff", "failure"):
+                    print(f"\n[Depth Limited Search] Resultado: {resultado}")
+                else:
+                    print(f"\n[Depth Limited Search]")
+                    print(f"Caminho encontrado: {' → '.join(resultado)}")
+                    
+                    # Calcular distância
+                    distancia_total = 0
+                    for i in range(len(resultado) - 1):
+                        distancia_total += cidades[resultado[i]][resultado[i + 1]]
+                    print(f"Distância total: {distancia_total} km")
+                    
+                    # LLM: Atrações turísticas
+                    mostrar_atracoes_llm(llm, resultado)
+                
+            elif opcao == "3":
+                def heuristic(n, goal):
+                    return linha_reta(n, goal)
+                custo, caminho = greedyBest_FirstSearch(cidades, origem, destino, heuristic)
+                print(f"\n[Greedy Best-First Search]")
+                print(f"Custo: {custo} km")
+                print(f"Caminho: {' → '.join(caminho)}")
+                
+                # LLM: Atrações turísticas
+                mostrar_atracoes_llm(llm, caminho)
+                
+            elif opcao == "4":
+                def heuristic(n, goal):
+                    return linha_reta(n, goal)
+                custo, caminho = a_star_search(cidades, origem, destino, heuristic)
+                print(f"\n[A* Search]")
+                print(f"Custo: {custo} km")
+                print(f"Caminho: {' → '.join(caminho)}")
+                
+                # LLM: Atrações turísticas
+                mostrar_atracoes_llm(llm, caminho)
+
+>>>>>>> da8338a18eb569338bb6340c1ed7a4e0a7337c54
             input("\nPressione Enter para continuar...")
         else:
             input("Opção inválida. Pressione Enter para tentar de novo...")
@@ -95,5 +242,10 @@ if __name__ == "__main__":
 # print(f"Linha reta Viseu-Faro: {distancia_teste} km")
 
 # Testar a tabela fixa para Faro (Tabela 2)
+<<<<<<< HEAD
 # distancia_faro = origem_faro['Viseu']
 # print(f"Tabela fixa Viseu-Faro: {distancia_faro} km")
+=======
+distancia_faro = origem_faro['Viseu']
+print(f"Tabela fixa Viseu-Faro: {distancia_faro} km")
+>>>>>>> da8338a18eb569338bb6340c1ed7a4e0a7337c54
