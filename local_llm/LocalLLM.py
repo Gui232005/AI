@@ -17,7 +17,8 @@ class LocalLLM:
                 messages=[{
                     'role': 'user',
                     'content': f"""Descreve as 3 principais atrações turísticas de {city_name} no páis Portugal (Europa).
-                    Sê conciso e informativo."""
+                    Escreve em português de Portugal.
+                    Sê conciso e informativo. Máximo 15 palavras por atração."""
                 }]
             )
             elapsed_time = time.time() - start_time
