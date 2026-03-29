@@ -16,8 +16,8 @@ class LocalLLM:
                 model=self.model_name,
                 messages=[{
                     'role': 'user',
-                    'content': f"""Descreve as 3 principais atrações turísticas de {city_name}, Portugal.
-                    Sê concisso e informativo. Máximo 15 palavras por atração."""
+                    'content': f"""Descreve as 3 principais atrações turísticas de {city_name} no páis Portugal (Europa).
+                    Sê conciso e informativo."""
                 }]
             )
             elapsed_time = time.time() - start_time

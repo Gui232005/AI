@@ -1,21 +1,8 @@
 import os
-<<<<<<< HEAD
-=======
-
 os.system('cls' if os.name == 'nt' else 'clear')
-
->>>>>>> da8338a18eb569338bb6340c1ed7a4e0a7337c54
 from rede import linha_reta, origem_faro, cidades
-
-# Vamos precisar de importar a função de OCR que vais criar
-# from ocr_module import extrair_matricula 
-<<<<<<< HEAD
 from ocr_module import LicensePlateOCR
-
-# Lista para guardar o histórico das viagens (associação de matrícula ao caminho)
 historico_viagens = []
-=======
-
 from search_algorithms.uniformCostSearch import uniform_cost_search
 from search_algorithms.depthLimitedSearch import depth_limited_search
 from search_algorithms.greedyBestFirstSearch import greedyBest_FirstSearch
@@ -23,14 +10,10 @@ from search_algorithms.A import a_star_search
 from rede import linha_reta, origem_faro, cidades
 from ocr_module import LicensePlateOCR
 from local_llm.LocalLLM import LocalLLM
-
->>>>>>> da8338a18eb569338bb6340c1ed7a4e0a7337c54
+from spinner import Spinner
 
 def limpar_ecra():
     os.system('cls' if os.name == 'nt' else 'clear')
-
-<<<<<<< HEAD
-=======
 
 def mostrar_atracoes_llm(llm, cidades_caminho):
     """Mostra as 3 principais atrações das cidades usando LLM local."""
@@ -40,7 +23,8 @@ def mostrar_atracoes_llm(llm, cidades_caminho):
     
     for cidade in cidades_caminho:
         print(f"\n{cidade}:")
-        resultado = llm.get_attractions(cidade)
+        with Spinner(f"A pesquisar atrações de {cidade}"):
+            resultado = llm.get_attractions(cidade)
         print(resultado['attractions'])
         print(f"   (Tempo de resposta: {resultado['time']:.2f}s)")
     
@@ -102,7 +86,6 @@ def login():
     else:
         print("Erro: Não foi possível ler a matrícula.")
 
->>>>>>> da8338a18eb569338bb6340c1ed7a4e0a7337c54
 def escolher_cidade(prompt):
     cidades_lista = sorted(cidades.keys())
     print(f"\n{prompt}")
@@ -138,11 +121,6 @@ def menu_principal(matricula, origem, destino):
             print("A sair...")
             break
         elif opcao in ("1", "2", "3", "4"):
-<<<<<<< HEAD
-            # Os algoritmos serão implementados pelos colegas
-            # Aqui o teu colega depois insere a lógica das escolhas
-            print(f"\n[TODO] Algoritmo {opcao} — {origem} → {destino}")
-=======
             if opcao == "1":
                 custo, caminho = uniform_cost_search(cidades, origem, destino)
                 print(f"\n[Uniform Cost Search]")
@@ -193,7 +171,6 @@ def menu_principal(matricula, origem, destino):
                 # LLM: Atrações turísticas
                 mostrar_atracoes_llm(llm, caminho)
 
->>>>>>> da8338a18eb569338bb6340c1ed7a4e0a7337c54
             input("\nPressione Enter para continuar...")
         else:
             input("Opção inválida. Pressione Enter para tentar de novo...")
@@ -201,11 +178,6 @@ def menu_principal(matricula, origem, destino):
 def login():
     limpar_ecra()
     print("--- LOGIN DO SISTEMA (OCR) ---\n")
-
-    # Exemplo de como funcionará:
-    # caminho_imagem = "Seat-Ibiza-FR-8-scaled_925x520_acf_cropped..."
-    # matricula_detectada = extrair_matricula(caminho_imagem)
-    # Placeholder enquanto não temos o OCR
 
     caminho_imagem = input("Caminho para a imagem da matrícula: ").strip()
 
@@ -237,15 +209,5 @@ def login():
 if __name__ == "__main__":
     login()
 
-# Testar o método de Haversine
-# distancia_teste = linha_reta('Viseu', 'Faro')
-# print(f"Linha reta Viseu-Faro: {distancia_teste} km")
-
-# Testar a tabela fixa para Faro (Tabela 2)
-<<<<<<< HEAD
-# distancia_faro = origem_faro['Viseu']
-# print(f"Tabela fixa Viseu-Faro: {distancia_faro} km")
-=======
 distancia_faro = origem_faro['Viseu']
 print(f"Tabela fixa Viseu-Faro: {distancia_faro} km")
->>>>>>> da8338a18eb569338bb6340c1ed7a4e0a7337c54

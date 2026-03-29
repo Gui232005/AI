@@ -25,7 +25,7 @@ def _debug_show(title: str, image: np.ndarray) -> None:
 
 
 class LicensePlateOCR:
-    def __init__(self, lang: str = "en", use_gpu: bool = False):
+    def __init__(self, lang: str = "en", use_gpu: bool = True):
         """
         Inicializa o PaddleOCR optimizado para leitura de matrículas.
 
