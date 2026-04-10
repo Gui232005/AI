@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 os.system('cls' if os.name == 'nt' else 'clear')
 from rede import linha_reta, origem_faro, cidades
 from ocr_module import LicensePlateOCR
@@ -12,6 +13,38 @@ from spinner import Spinner
 
 def limpar_ecra():
     os.system('cls' if os.name == 'nt' else 'clear')
+
+def registar_viagem(matricula, algoritmo, origem, destino, caminho, distancia):
+    """Regista uma viagem no histórico, associada à matrícula."""
+    historico_viagens.append({
+        'matricula': matricula,
+        'algoritmo': algoritmo,
+        'origem': origem,
+        'destino': destino,
+        'caminho': caminho,
+        'distancia': distancia,
+        'data_hora': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    })
+
+def mostrar_historico(matricula):
+    """Mostra o histórico de viagens da matrícula atual."""
+    print("\n" + "="*60)
+    print(f"HISTÓRICO DE VIAGENS — {matricula}")
+    print("="*60)
+    
+    viagens = [v for v in historico_viagens if v['matricula'] == matricula]
+    
+    if not viagens:
+        print("\n  Nenhuma viagem registada ainda.")
+    else:
+        for i, v in enumerate(viagens, 1):
+            print(f"\n  Viagem {i} [{v['data_hora']}]")
+            print(f"    Algoritmo: {v['algoritmo']}")
+            print(f"    Percurso:  {v['origem']} → {v['destino']}")
+            print(f"    Caminho:   {' → '.join(v['caminho'])}")
+            print(f"    Distância: {v['distancia']} km")
+    
+    print("\n" + "="*60)
 
 def mostrar_atracoes_llm(llm, cidades_caminho):
     """Mostra as 3 principais atrações das cidades usando LLM local."""
@@ -53,21 +86,25 @@ def menu_principal(matricula, origem, destino):
         print("2. Procurar Caminho (Profundidade Limitada)")
         print("3. Procurar Caminho (Sôfrega)")
         print("4. Procurar Caminho (A*)")
+        print("5. Ver Histórico de Viagens")
         print("0. Sair")
-
-        # os.system('cls' if os.name == 'nt' else 'clear')
 
         opcao = input("\nEscolha uma opção: ").strip()
 
         if opcao == "0":
             print("A sair...")
             break
+        elif opcao == "5":
+            mostrar_historico(matricula)
+            input("\nPressione Enter para continuar...")
         elif opcao in ("1", "2", "3", "4"):
             if opcao == "1":
                 custo, caminho = uniform_cost_search(cidades, origem, destino)
                 print(f"\n[Uniform Cost Search]")
                 print(f"Custo: {custo} km")
                 print(f"Caminho: {' → '.join(caminho)}")
+                
+                registar_viagem(matricula, "Custo Uniforme", origem, destino, caminho, custo)
                 
                 # LLM: Atrações turísticas
                 mostrar_atracoes_llm(llm, caminho)
@@ -88,6 +125,8 @@ def menu_principal(matricula, origem, destino):
                         distancia_total += cidades[resultado[i]][resultado[i + 1]]
                     print(f"Distância total: {distancia_total} km")
                     
+                    registar_viagem(matricula, f"Profundidade Limitada (l={limite})", origem, destino, resultado, distancia_total)
+                    
                     # LLM: Atrações turísticas
                     mostrar_atracoes_llm(llm, resultado)
                 
@@ -99,6 +138,8 @@ def menu_principal(matricula, origem, destino):
                 print(f"Custo: {custo} km")
                 print(f"Caminho: {' → '.join(caminho)}")
                 
+                registar_viagem(matricula, "Sôfrega (Greedy)", origem, destino, caminho, custo)
+                
                 # LLM: Atrações turísticas
                 mostrar_atracoes_llm(llm, caminho)
                 
@@ -109,6 +150,8 @@ def menu_principal(matricula, origem, destino):
                 print(f"\n[A* Search]")
                 print(f"Custo: {custo} km")
                 print(f"Caminho: {' → '.join(caminho)}")
+                
+                registar_viagem(matricula, "A*", origem, destino, caminho, custo)
                 
                 # LLM: Atrações turísticas
                 mostrar_atracoes_llm(llm, caminho)
@@ -159,6 +202,3 @@ def login():
 
 if __name__ == "__main__":
     login()
-
-distancia_faro = origem_faro['Viseu']
-print(f"Tabela fixa Viseu-Faro: {distancia_faro} km")

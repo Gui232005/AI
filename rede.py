@@ -65,9 +65,10 @@ coordenadas = {
     'Viseu': (40.6566, -7.9125)
 }
 
-def linha_reta(origem, destino):
+def _haversine(origem, destino):
     """
     Calcula a distância em linha reta (Haversine) entre duas cidades em km.
+    Utilizada como fallback quando não existe tabela heurística.
     """
     if origem not in coordenadas or destino not in coordenadas:
         return None  # Prevenção de erros caso a cidade não exista
@@ -90,4 +91,25 @@ def linha_reta(origem, destino):
     distancia = R * c
     
     return round(distancia) # Devolve o valor arredondado (inteiro)
+
+
+def linha_reta(origem, destino):
+    """
+    Calcula a distância em linha reta entre duas cidades em km.
+    
+    Estratégia:
+      - Se o destino for Faro → usa a tabela fixa fornecida (Tabela 2 do enunciado)
+      - Se a origem for Faro → usa a mesma tabela (distância em linha reta é simétrica)
+      - Caso contrário → calcula via fórmula de Haversine
+    """
+    # Se o destino é Faro, usar a tabela fornecida pelo enunciado
+    if destino == 'Faro' and origem in origem_faro:
+        return origem_faro[origem]
+    
+    # Se a origem é Faro, a distância em linha reta é simétrica
+    if origem == 'Faro' and destino in origem_faro:
+        return origem_faro[destino]
+    
+    # Para quaisquer outros pares de cidades, calcular via Haversine
+    return _haversine(origem, destino)
 
