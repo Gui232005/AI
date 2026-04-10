@@ -1,0 +1,47 @@
+[
+  {
+    "data_hora": "2026-04-10 15:49",
+    "matricula": "AO74VC",
+    "algoritmo": "Custo Uniforme (UCS)",
+    "origem": "Aveiro",
+    "destino": "Faro",
+    "caminho": "Aveiro → Leiria → Santarém → Évora → Beja → Faro",
+    "distancia": 532
+  },
+  {
+    "data_hora": "2026-04-10 15:50",
+    "matricula": "AO74VC",
+    "algoritmo": "Custo Uniforme (UCS)",
+    "origem": "Aveiro",
+    "destino": "Faro",
+    "caminho": "Aveiro → Leiria → Santarém → Évora → Beja → Faro",
+    "distancia": 532
+  },
+  {
+    "data_hora": "2026-04-10 15:51",
+    "matricula": "AO74VC",
+    "algoritmo": "A*",
+    "origem": "Porto",
+    "destino": "Lisboa",
+    "caminho": "Porto → Aveiro → Leiria → Lisboa",
+    "distancia": 312
+  },
+  {
+    "data_hora": "2026-04-10 16:30",
+    "matricula": "AO74VC",
+    "algoritmo": "Custo Uniforme (UCS)",
+    "origem": "Aveiro",
+    "destino": "Lisboa",
+    "caminho": "Aveiro → Leiria → Lisboa",
+    "distancia": 244
+  },
+  {
+    "data_hora": "2026-04-10 16:35",
+    "matricula": "AO74VC",
+    "algoritmo": "Custo Uniforme (UCS)",
+    "origem": "Aveiro",
+    "destino": "Beja",
+    "caminho": "Aveiro → Leiria → Santarém → Évora → Beja",
+    "distancia": 380
+  }
+]

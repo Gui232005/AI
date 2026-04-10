@@ -14,3 +14,7 @@ paddlepaddle
 paddleocr
 opencv-python
 numpy
+streamlit>=1.35.0
+networkx>=3.3
+matplotlib>=3.9.0
+pandas>=2.2.0
