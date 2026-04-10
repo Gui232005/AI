@@ -3,8 +3,11 @@
 '''
 
 # Aqui é onde o algoritmo está implementado, quando o limite for atingido ele para nao interessa se chegou ou nao ao objetivo
-def depth_limited_search(node, goal, graph, limit, visited=None):
-    #O parâmetro visited é para que o algoritmo não passe no mesmo local mais do que uma vez
+def depth_limited_search(node, goal, graph, limit=19, visited=None):
+    # Limite defenido em 19 porque é o número máximo de cidades, ou seja, o número máximo de nós que podem ser visitados
+    if ((limit > 19) or (limit <= 0)):
+        limit = 19
+    # O parâmetro visited é para que o algoritmo não passe no mesmo local mais do que uma vez
     if visited is None:
         visited = set()
     if node == goal:
