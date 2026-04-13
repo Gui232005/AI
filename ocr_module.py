@@ -46,7 +46,7 @@ def _debug_show(title: str, image: np.ndarray) -> None:
 class LicensePlateOCR:
     def __init__(self, lang: str = "en", use_gpu: bool = True):
         """
-        Inicializa o PaddleOCR optimizado para leitura de matrículas.
+        Inicializa o PaddleOCR
 
         Args:
             lang: Idioma do modelo OCR ('en' cobre caracteres alfanuméricos).
@@ -131,7 +131,7 @@ class LicensePlateOCR:
         Executa OCR num ficheiro de imagem.
 
         Args:
-            path: Caminho para a imagem (JPEG, PNG, etc.).
+            path: Caminho para a imagem (JPEG, PNG, etc...).
             preprocess: Aplicar pré-processamento.
 
         Returns:
