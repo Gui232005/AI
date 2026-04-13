@@ -173,7 +173,7 @@ def build_folium_map(highlight_path: tuple = None):
 # ── Sidebar — OCR login ───────────────────────────────────────────────────────
 
 def render_sidebar_login():
-    st.sidebar.title("🔐 Autenticação")
+    st.sidebar.title("Autenticação")
 
     if st.session_state.autenticado:
         st.sidebar.success(f"Matrícula: **{st.session_state.matricula}**")
@@ -386,7 +386,7 @@ def render_tab_atracoes():
 
     llm = LocalLLM()
     for cidade in caminho:
-        with st.expander(f"📍 {cidade}", expanded=True):
+        with st.expander(f"{cidade}", expanded=True):
             if cidade in st.session_state.llm_cache:
                 resultado = st.session_state.llm_cache[cidade]
                 st.markdown(resultado["attractions"])
@@ -404,7 +404,7 @@ def render_tab_atracoes():
 def main():
     st.set_page_config(
         page_title="Sistema de Navegação Portugal",
-        page_icon="🗺️",
+        page_icon="",
         layout="wide",
     )
 
@@ -412,10 +412,10 @@ def main():
     render_sidebar_login()
 
     tab1, tab2, tab3, tab4 = st.tabs([
-        "🗺️ Mapa de Cidades",
-        "🔍 Planear Rota",
-        "📋 Histórico",
-        "🏛️ Atrações Turísticas",
+        "Mapa de Cidades",
+        "Planear Rota",
+        "Histórico",
+        "Atrações Turísticas",
     ])
 
     with tab1:

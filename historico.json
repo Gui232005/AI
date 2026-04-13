@@ -43,5 +43,32 @@
     "destino": "Beja",
     "caminho": "Aveiro → Leiria → Santarém → Évora → Beja",
     "distancia": 380
+  },
+  {
+    "data_hora": "2026-04-13 23:06",
+    "matricula": "AO74VC",
+    "algoritmo": "Custo Uniforme (UCS)",
+    "origem": "Viseu",
+    "destino": "Lisboa",
+    "caminho": "Viseu → Coimbra → Leiria → Lisboa",
+    "distancia": 292
+  },
+  {
+    "data_hora": "2026-04-13 23:07",
+    "matricula": "AO74VC",
+    "algoritmo": "Profundidade Limitada (DLS)",
+    "origem": "Viseu",
+    "destino": "Faro",
+    "caminho": "Viseu → Aveiro → Porto → Braga → Vila Real → Bragança → Guarda → Castelo Branco → Coimbra → Leiria → Lisboa → Évora → Beja → Faro",
+    "distancia": 1502
+  },
+  {
+    "data_hora": "2026-04-13 23:10",
+    "matricula": "AO74VC",
+    "algoritmo": "A*",
+    "origem": "Viseu",
+    "destino": "Faro",
+    "caminho": "Viseu → Coimbra → Leiria → Santarém → Évora → Beja → Faro",
+    "distancia": 580
   }
 ]

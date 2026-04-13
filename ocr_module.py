@@ -3,6 +3,11 @@ import re
 import cv2
 import numpy as np
 
+_MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
+_MODELS_DIR = os.path.join(_MODULE_DIR, "models")
+os.makedirs(_MODELS_DIR, exist_ok=True)
+os.environ.setdefault("PADDLE_PDX_CACHE_HOME", _MODELS_DIR)
+
 def _check_gpu():
     try:
         import paddle
