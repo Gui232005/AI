@@ -16,7 +16,7 @@ class LocalLLM:
                 model=self.model_name,
                 messages=[{
                     'role': 'user',
-                    'content': f"""Descreve as 3 principais atrações turísticas de {city_name} no páis Portugal (Europa).
+                    'content': f"""Descreve as 3 principais atrações turísticas de {city_name} no país Portugal (Europa).
                     Escreve em português de Portugal.
                     Sê conciso e informativo. Máximo 15 palavras por atração."""
                 }]
