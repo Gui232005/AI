@@ -70,5 +70,23 @@
     "destino": "Faro",
     "caminho": "Viseu → Coimbra → Leiria → Santarém → Évora → Beja → Faro",
     "distancia": 580
+  },
+  {
+    "data_hora": "2026-04-13 23:28",
+    "matricula": "AO74VC",
+    "algoritmo": "A*",
+    "origem": "Viseu",
+    "destino": "Faro",
+    "caminho": "Viseu → Coimbra → Leiria → Santarém → Évora → Beja → Faro",
+    "distancia": 580
+  },
+  {
+    "data_hora": "2026-04-13 23:33",
+    "matricula": "AO74VC",
+    "algoritmo": "A*",
+    "origem": "Viseu",
+    "destino": "Faro",
+    "caminho": "Viseu → Coimbra → Leiria → Santarém → Évora → Beja → Faro",
+    "distancia": 580
   }
 ]
